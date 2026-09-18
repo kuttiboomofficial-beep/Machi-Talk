@@ -89,8 +89,8 @@ function makeRecognition(sourceKey,targetKey){
   r.onstart=()=>{
     setStatus("Listening…","success");
     turnIndicator.textContent=currentSpeaker==="mine"
-      ? "🗣️ Your turn — speak Tamil"
-      : "👤 Customer turn — speak Hindi";
+      ? "🗣️ Your turn — speak "+langs[from.value].name.replace(/^\S+\s*/,"")
+      : "👤 Customer turn — speak "+langs[to.value].name.replace(/^\S+\s*/,"");
     myTurn.disabled=true; customerTurn.disabled=true;
     stop.disabled=false;
   };
@@ -98,11 +98,29 @@ function makeRecognition(sourceKey,targetKey){
   r.onresult=async e=>{
     const text=e.results[0][0].transcript.trim();
     if(!text) return;
-    heard.textContent=text;
+    // Keep each language box tied to the person/language, not to the last
+    // direction of translation. This prevents Tamil text from appearing
+    // inside the Hindi customer box (and vice versa).
+    if(currentSpeaker==="mine"){
+      heard.textContent=text; // You: original Tamil/Hindi/etc.
+      translated.textContent="மொழிபெயர்ப்பு இங்கே வரும்...";
+    }else{
+      translated.textContent=text; // Customer: original customer language.
+      heard.textContent="மொழிபெயர்ப்பு இங்கே வரும்...";
+    }
     setStatus("Translating…");
     try{
       lastTranslation=await translate(text,sourceKey,targetKey);
-      translated.textContent=lastTranslation;
+
+      // Show the original speech under the speaker's own language,
+      // and the translated speech under the other person's language.
+      if(currentSpeaker==="mine"){
+        heard.textContent=text;
+        translated.textContent=lastTranslation;
+      }else{
+        translated.textContent=text;
+        heard.textContent=lastTranslation;
+      }
       speak.disabled=false;
       setStatus("Translation ready","success");
 
@@ -208,6 +226,7 @@ document.getElementById("swap").onclick=()=>{
   const x=from.value; from.value=to.value; to.value=x;
   labels();
   lastTranslation="";
+  heard.textContent="பேச தொடங்குங்கள்...";
   translated.textContent="மொழிபெயர்ப்பு இங்கே வரும்...";
   setStatus("Languages swapped");
 };
