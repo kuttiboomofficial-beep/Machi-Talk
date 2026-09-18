@@ -2,44 +2,69 @@
 <html lang="ta">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MACHI TALK V2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MACHI TALK V3</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
-<header><div class="logo">🗣️</div><div><h1>MACHI TALK</h1><p>Live Voice Translator · V2</p></div></header>
+<header>
+  <div class="logo">🗣️</div>
+  <div><h1>MACHI TALK</h1><p>Continuous Conversation · V3</p></div>
+</header>
 
 <section class="card settings">
-<label>🗣️ MY LANGUAGE</label>
-<select id="from"></select>
-<button id="swap" class="swap">⇄ SWAP</button>
-<label>👤 CUSTOMER LANGUAGE</label>
-<select id="to"></select>
+  <div class="row">
+    <div class="field"><label>🗣️ MY LANGUAGE</label><select id="from"></select></div>
+    <button id="swap" class="swap">⇄</button>
+    <div class="field"><label>👤 CUSTOMER LANGUAGE</label><select id="to"></select></div>
+  </div>
 
-<details>
-<summary>⚙️ Translation server</summary>
-<p class="small">V2 keeps the API key on a server. Do not put an OpenAI API key inside this HTML/JS.</p>
-<input id="apiBase" placeholder="https://your-server.example.com">
-<button id="saveServer">Save server</button>
-</details>
+  <details>
+    <summary>⚙️ Translation server</summary>
+    <p class="small">Keep the OpenAI API key on the server. Never paste the key into this app or GitHub.</p>
+    <input id="apiBase" placeholder="https://your-server.example.com">
+    <button id="saveServer">Save server</button>
+  </details>
+</section>
+
+<section class="card callmode">
+  <div class="mode-title">📞 Speakerphone conversation</div>
+  <p class="note">Call the customer normally → turn on phone <b>Speaker</b> → keep this app open.</p>
+  <label class="check"><input type="checkbox" id="autoMode"> 🔄 Auto conversation (take turns automatically)</label>
 </section>
 
 <section class="card conversation">
-<div class="status" id="status">Ready</div>
-<div class="bubble mine"><small>You</small><div id="heard">பேச தொடங்குங்கள்...</div></div>
-<div class="bubble other"><small>Translation</small><div id="translated">மொழிபெயர்ப்பு இங்கே வரும்...</div></div>
-<div class="controls">
-<button id="start" class="primary">🎙️ START</button>
-<button id="stop" disabled>⏹ STOP</button>
-<button id="speak" disabled>🔊 SPEAK</button>
-</div>
+  <div class="status" id="status">Ready</div>
+
+  <div class="turn-indicator" id="turnIndicator">Choose who speaks first</div>
+
+  <div class="bubble mine">
+    <small id="fromLabel">You</small>
+    <div id="heard">பேச தொடங்குங்கள்...</div>
+  </div>
+
+  <div class="bubble other">
+    <small id="toLabel">Customer</small>
+    <div id="translated">மொழிபெயர்ப்பு இங்கே வரும்...</div>
+  </div>
+
+  <div class="turn-buttons">
+    <button id="myTurn" class="primary">🎙️ நான் பேசுகிறேன்</button>
+    <button id="customerTurn" class="secondary">👤 Customer பேசுகிறார்</button>
+  </div>
+
+  <div class="controls">
+    <button id="startAuto" class="auto">🔄 START AUTO</button>
+    <button id="stop" disabled>⏹ STOP</button>
+    <button id="speak" disabled>🔊 REPLAY</button>
+  </div>
 </section>
 
 <section class="card">
-<b>V2 flow</b>
-<p class="flow">🎙️ Voice → 📝 Speech → 🌍 Real translation → 🔊 Target voice</p>
-<p class="note">Browser speech recognition and speech synthesis depend on Android/browser support. The server performs the actual sentence translation.</p>
+  <b>V3 flow</b>
+  <p class="flow">📞 Normal call + 🔊 Speaker → 🎙️ Listen → 🌍 Translate → 🔊 Speak → 🔄 Next turn</p>
+  <p class="note">This version is designed for speakerphone use. It does not directly intercept cellular call audio.</p>
 </section>
 </div>
 <script src="app.js"></script>
