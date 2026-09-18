@@ -3,49 +3,44 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MACHI TALK</title>
+<title>MACHI TALK V2</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
-  <header>
-    <div class="logo">🗣️</div>
-    <div><h1>MACHI TALK</h1><p>Live Voice Translator</p></div>
-  </header>
+<header><div class="logo">🗣️</div><div><h1>MACHI TALK</h1><p>Live Voice Translator · V2</p></div></header>
 
-  <main>
-    <section class="card">
-      <label>🗣️ MY LANGUAGE</label>
-      <select id="from"></select>
+<section class="card settings">
+<label>🗣️ MY LANGUAGE</label>
+<select id="from"></select>
+<button id="swap" class="swap">⇄ SWAP</button>
+<label>👤 CUSTOMER LANGUAGE</label>
+<select id="to"></select>
 
-      <button id="swap" class="swap">⇄ SWAP</button>
+<details>
+<summary>⚙️ Translation server</summary>
+<p class="small">V2 keeps the API key on a server. Do not put an OpenAI API key inside this HTML/JS.</p>
+<input id="apiBase" placeholder="https://your-server.example.com">
+<button id="saveServer">Save server</button>
+</details>
+</section>
 
-      <label>👤 CUSTOMER LANGUAGE</label>
-      <select id="to"></select>
-    </section>
+<section class="card conversation">
+<div class="status" id="status">Ready</div>
+<div class="bubble mine"><small>You</small><div id="heard">பேச தொடங்குங்கள்...</div></div>
+<div class="bubble other"><small>Translation</small><div id="translated">மொழிபெயர்ப்பு இங்கே வரும்...</div></div>
+<div class="controls">
+<button id="start" class="primary">🎙️ START</button>
+<button id="stop" disabled>⏹ STOP</button>
+<button id="speak" disabled>🔊 SPEAK</button>
+</div>
+</section>
 
-    <section class="card conversation">
-      <div class="status" id="status">Ready</div>
-      <div class="bubble mine"><small>You</small><div id="heard">பேச தொடங்குங்கள்...</div></div>
-      <div class="bubble other"><small>Translation</small><div id="translated">மொழிபெயர்ப்பு இங்கே வரும்...</div></div>
-      <div class="controls">
-        <button id="start" class="primary">🎙️ START</button>
-        <button id="stop" class="danger" disabled>⏹ STOP</button>
-        <button id="speak" disabled>🔊 SPEAK</button>
-      </div>
-    </section>
-
-    <section class="card tips">
-      <b>How to use</b>
-      <ol>
-        <li>உன் மொழி மற்றும் customer மொழியை தேர்வு செய்.</li>
-        <li>START அழுத்தி பேசு.</li>
-        <li>Translation-ஐ app காட்டி, SPEAK மூலம் கேட்கலாம்.</li>
-        <li>Phone call-ல் பயன்படுத்தினால் speaker mode வைத்து அருகில் app-ஐ பயன்படுத்தவும்.</li>
-      </ol>
-      <p class="note">V1 is a prototype using the phone/browser speech services. Internet/service availability and supported languages depend on the device.</p>
-    </section>
-  </main>
+<section class="card">
+<b>V2 flow</b>
+<p class="flow">🎙️ Voice → 📝 Speech → 🌍 Real translation → 🔊 Target voice</p>
+<p class="note">Browser speech recognition and speech synthesis depend on Android/browser support. The server performs the actual sentence translation.</p>
+</section>
 </div>
 <script src="app.js"></script>
 </body>
